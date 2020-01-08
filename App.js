@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, AppRegistry } from 'react-native';
 
 import { NativeRouter, Route, Link } from "react-router-native";
 
@@ -107,4 +107,4 @@ const styles = StyleSheet.create({
   }
 });
 
-
+AppRegistry.registerComponent("Swubus M", () => App);
