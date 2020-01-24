@@ -56,21 +56,22 @@ export default function App() {
         <Route path="/about" component={About} />
         <Route path="/topics" component={Topics} />
         </View>
+        
         <View style={styles.nav}>
           <Link to="/" underlayColor="#f0f4f7" style={styles.navItem}>
-            <Text>Home</Text>
+            <Text>Timetable</Text>
           </Link>
           <Link to="/about" underlayColor="#f0f4f7" style={styles.navItem}>
-            <Text>About</Text>
+            <Text>Route</Text>
           </Link>
           <Link to="/topics" underlayColor="#f0f4f7" style={styles.navItem}>
-            <Text>Topics</Text>
+            <Text>Wait</Text>
           </Link>
           <Link to="/about" underlayColor="#f0f4f7" style={styles.navItem}>
-            <Text>About</Text>
+            <Text>Place</Text>
           </Link>
           <Link to="/about" underlayColor="#f0f4f7" style={styles.navItem}>
-            <Text>About</Text>
+            <Text>Info</Text>
           </Link>
         </View>
 
@@ -84,10 +85,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "red"
+    // backgroundColor: "red"
   },
   body: {
-    flex: 1,
+    flex: 10,
     backgroundColor: "green",
     justifyContent: "center",
     alignItems: "center"
@@ -96,13 +97,14 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   nav: {
+    flex: 1,
     flexDirection: "row",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   navItem: {
     flex: 1,
-    alignItems: "center",
-    padding: 10
+    justifyContent: "space-around",
+    alignItems:"center"
   },
   subNavItem: {
     padding: 5
