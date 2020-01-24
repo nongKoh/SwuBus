@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, View, AppRegistry } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View, AppRegistry } from "react-native";
 
 import { NativeRouter, Route, Link } from "react-router-native";
 
@@ -18,7 +18,7 @@ const Topics = ({ match }) => (
       <Link
         to={`${match.url}/rendering`}
         style={styles.subNavItem}
-        underlayColor="#f0f4f7"
+        underlayColor="blue"
       >
         <Text>Rendering with React</Text>
       </Link>
@@ -42,9 +42,7 @@ const Topics = ({ match }) => (
     <Route
       exact
       path={match.path}
-      render={() => (
-        <Text style={styles.topic}>Please select a topic.</Text>
-      )}
+      render={() => <Text style={styles.topic}>Please select a topic.</Text>}
     />
   </View>
 );
@@ -52,39 +50,47 @@ const Topics = ({ match }) => (
 export default function App() {
   return (
     <NativeRouter>
-    <View style={styles.container}>
-      <View style={styles.nav}>
-        <Link to="/" underlayColor="#f0f4f7" style={styles.navItem}>
-          <Text>Home</Text>
-        </Link>
-        <Link
-          to="/about"
-          underlayColor="#f0f4f7"
-          style={styles.navItem}
-        >
-          <Text>About</Text>
-        </Link>
-        <Link
-          to="/topics"
-          underlayColor="#f0f4f7"
-          style={styles.navItem}
-        >
-          <Text>Topics</Text>
-        </Link>
-      </View>
+      <View style={styles.container}>
+        <View style={styles.body}>
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/topics" component={Topics} />
+        </View>
+        <View style={styles.nav}>
+          <Link to="/" underlayColor="#f0f4f7" style={styles.navItem}>
+            <Text>Home</Text>
+          </Link>
+          <Link to="/about" underlayColor="#f0f4f7" style={styles.navItem}>
+            <Text>About</Text>
+          </Link>
+          <Link to="/topics" underlayColor="#f0f4f7" style={styles.navItem}>
+            <Text>Topics</Text>
+          </Link>
+          <Link to="/about" underlayColor="#f0f4f7" style={styles.navItem}>
+            <Text>About</Text>
+          </Link>
+          <Link to="/about" underlayColor="#f0f4f7" style={styles.navItem}>
+            <Text>About</Text>
+          </Link>
+        </View>
 
-      <Route exact path="/" component={Home} />
-      <Route path="/about" component={About} />
-      <Route path="/topics" component={Topics} />
-    </View>
-  </NativeRouter>
-);
+        
+      </View>
+    </NativeRouter>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 25,
-    padding: 10
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "red"
+  },
+  body: {
+    flex: 1,
+    backgroundColor: "green",
+    justifyContent: "center",
+    alignItems: "center"
   },
   header: {
     fontSize: 20
