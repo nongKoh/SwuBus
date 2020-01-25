@@ -10,7 +10,7 @@ export default class TimetableScreen extends React.Component {
     //   const {navigate} = this.props.navigation;
     return (
       <View>
-        <Text>Timetable</Text>
+        <Text>Timetable hello</Text>
         <Text>hello</Text>
       </View>
     );
