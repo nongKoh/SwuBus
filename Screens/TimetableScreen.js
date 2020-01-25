@@ -11,6 +11,7 @@ export default class TimetableScreen extends React.Component {
     return (
       <View>
         <Text>Timetable</Text>
+        <Text>hello</Text>
       </View>
     );
   }
