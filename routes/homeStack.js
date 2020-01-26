@@ -13,7 +13,7 @@ const MainNavigator = createStackNavigator(
     Home: HomeScreen,
     Timetable: TimetableScreen,
     Route: RouteScreen,
-    With: WithScreen,
+    Wait: WithScreen,
     Place: PlaceScreen,
     Info: InfoScreen,
   }

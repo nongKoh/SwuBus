@@ -1,47 +1,133 @@
 import React from "react";
-import { StyleSheet, Button, View } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  Text,
+  View,
+  TouchableHighlight
+} from "react-native";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     headerShown: false,
-    title: "",
-
+    title: ""
   };
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <View style={styles.body}>
+        <View style={styles.wait}>
+          <View style={styles.body}></View>
 
+          <TouchableHighlight
+            style={styles.circle}
+            onPress={() => navigate("Wait")}
+            underlayColor="#ff82a0"
+          >
+            <Text style={styles.text}>Wait</Text>
+          </TouchableHighlight>
         </View>
-        <View style={styles.nav}>
-          <Button style={styles.StackButton} title="Timetable" onPress={() => navigate("Timetable")} />
-          <Button style={styles.StackButton} title="Route" onPress={() => navigate("Route")} />
-          <Button style={styles.StackButton} title="Wait" onPress={() => navigate("With")} />
-          <Button style={styles.StackButton} title="Place" onPress={() => navigate("Place")} />
-          <Button style={styles.StackButton} title="Info" onPress={() => navigate("Info")} />
+        <View style={styles.map}>
+          <View style={styles.body}></View>
+          <View style={styles.nav}>
+            <TouchableHighlight
+              style={styles.StackButton}
+              onPress={() => navigate("Timetable")}
+              underlayColor="#ff82a0"
+            >
+              <Text>Timetable</Text>
+            </TouchableHighlight>
+            
+            <TouchableHighlight
+              style={styles.StackButton}
+              onPress={() => navigate("Route")}
+              underlayColor="#ff82a0"
+            >
+              <Text>Route</Text>
+            </TouchableHighlight>
+
+            <TouchableHighlight
+              style={styles.StackButton}
+              // onPress={() => navigate("Timetable")}
+              underlayColor="#ff82a0"
+            >
+              <Text></Text>
+            </TouchableHighlight>
+
+            <TouchableHighlight
+              style={styles.StackButton}
+              onPress={() => navigate("Place")}
+              underlayColor="#ff82a0"
+            >
+              <Text>Place</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={styles.StackButton}
+              onPress={() => navigate("Info")}
+              underlayColor="#ff82a0"
+            >
+              <Text>Info</Text>
+            </TouchableHighlight>
+          </View>
         </View>
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
-  container: {
+  map: {
+    position: "relative",
     flex: 1,
+    zIndex: 0
+  },
+  wait: {
+     flex: 1, 
+    position: "absolute",
+    bottom:"7%",
+    right:"50%",
+    zIndex:1,
+    // backgroundColor:"green"
+    
+    
+  },
+  container: {
+    flex: 1
   },
   body: {
-    flex: 15,
-    backgroundColor: "red",
+    flex: 20,
+    backgroundColor: "red"
   },
   nav: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: "row"
+  },
+  StackButton: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+
     justifyContent: "center",
+    alignItems: "center"
+  },
+  circle: {
+    
+    alignItems: "center",
+    justifyContent:"center",
+    
+    borderRadius: 50,
+    backgroundColor: "#ffdae0",
+    width:"200%",
+    height:"200%"
+    // marginTop:"80%",
+    // padding: "10%",
+    // paddingTop: "15%",
+    // paddingRight: "10%",
+    // paddingLeft: "10%",
+    // paddingBottom: "15%",
+    // height: "10%",
+    // justifyContent:"flex-end",
     
   },
-  StackButton:{
-    margin: 10
+  text:{
+    fontSize:25
   }
-
 });
-
