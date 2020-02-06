@@ -1,30 +1,42 @@
 {
-  "expo": {
-    "name": "Swubus M",
-    "slug": "SWUBUS",
-    "privacy": "public",
-    "sdkVersion": "36.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/LogoSwuBusM.png",
-    "splash": {
-      "image": "./assets/Loading.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
+    "expo": {
+      "name": "Swubus M",
+      "slug": "SWUBUS",
+      "privacy": "public",
+      "sdkVersion": "36.0.0",
+      "platforms": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "version": "1.0.0",
+      "orientation": "portrait",
+      "icon": "./assets/LogoSwuBusM.png",
+      "splash": {
+        "image": "./assets/Loading.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff"
+      },
+      "updates": {
+        "fallbackToCacheTimeout": 0
+      },
+      "assetBundlePatterns": [
+        "**/*"
+      ],
+      "ios": {
+        "supportsTablet": true,
+        "bundleIdentifier": "com.whattime.SwubusM",
+        "config": {
+          "googleMapsApiKey": "AIzaSyAN9OltaoKz_iw-luHb2Xji_c-yKr78Rrk"
+      }
+      },
+      "android": {
+        "package": "com.whattime.SwubusM",
+        "config": {
+          "googleMaps": {
+            "apiKey": "AIzaSyB0KiOuOahpE4unpy5Mgq6Sp3A0nt4TDOs"
+          }
+      }
     }
   }
 }
