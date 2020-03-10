@@ -98,11 +98,11 @@ export default class PlaceScreen extends React.Component {
       const data = station.station;
       const driver = station.driver;
       const view1 = driver
-        .filter(driver => driver.status == 1)
-        .filter(driver => driver.route == 1)
+        .filter(driver => driver.Status == 1)
+        .filter(driver => driver.Route == 1)
         .map(driver => {
           return (
-            <View key={driver.id} style={styles.driver}>
+            <View key={driver.Id} style={styles.driver}>
               <View style={styles.row}>
                 <View style={styles.status}>
                   <Text> Online </Text>
@@ -123,11 +123,11 @@ export default class PlaceScreen extends React.Component {
           );
         });
       const view2 = driver
-        .filter(driver => driver.status == 1)
-        .filter(driver => driver.route == 2)
+        .filter(driver => driver.Status == 1)
+        .filter(driver => driver.Route == 2)
         .map(driver => {
           return (
-            <View key={driver.id} style={styles.driver}>
+            <View key={driver.Id} style={styles.driver}>
               <View style={styles.row}>
                 <View style={styles.status}>
                   <Text> Online </Text>
@@ -148,11 +148,11 @@ export default class PlaceScreen extends React.Component {
           );
         });
       const view3 = driver
-        .filter(driver => driver.status == 1)
-        .filter(driver => driver.route == 3)
+        .filter(driver => driver.Status == 1)
+        .filter(driver => driver.Route == 3)
         .map(driver => {
           return (
-            <View key={driver.id} style={styles.driver}>
+            <View key={driver.Id} style={styles.driver}>
               <View style={styles.row}>
                 <View style={styles.status}>
                   <Text> Online </Text>
@@ -173,11 +173,11 @@ export default class PlaceScreen extends React.Component {
           );
         });
       const view4 = driver
-        .filter(driver => driver.status == 1)
-        .filter(driver => driver.route == 4)
+        .filter(driver => driver.Status == 1)
+        .filter(driver => driver.Route == 4)
         .map(driver => {
           return (
-            <View key={driver.id} style={styles.driver}>
+            <View key={driver.Id} style={styles.driver}>
               <View style={styles.row}>
                 <View style={styles.status}>
                   <Text> Online </Text>
@@ -208,8 +208,8 @@ export default class PlaceScreen extends React.Component {
                 <View>
                   {data.route_1 ? (
                     driver
-                      .filter(driver => driver.route == 1)
-                      .filter(driver => driver.status == 1).length == 0 ? (
+                      .filter(driver => driver.Route == 1)
+                      .filter(driver => driver.Status == 1).length == 0 ? (
                       <View>
                         <Text>รถสายนี้หยุดทำงาน</Text>
                       </View>
@@ -234,8 +234,8 @@ export default class PlaceScreen extends React.Component {
                 <View>
                   {data.route_2 ? (
                     driver
-                      .filter(driver => driver.route == 2)
-                      .filter(driver => driver.status == 1).length == 0 ? (
+                      .filter(driver => driver.Route == 2)
+                      .filter(driver => driver.Status == 1).length == 0 ? (
                       <View>
                         <Text>รถสายนี้หยุดทำงาน</Text>
                       </View>
@@ -260,8 +260,8 @@ export default class PlaceScreen extends React.Component {
                 <View>
                   {data.route_3 ? (
                     driver
-                      .filter(driver => driver.route == 3)
-                      .filter(driver => driver.status == 1).length == 0 ? (
+                      .filter(driver => driver.Route == 3)
+                      .filter(driver => driver.Status == 1).length == 0 ? (
                       <View>
                         <Text>รถสายนี้หยุดทำงาน</Text>
                       </View>
@@ -286,8 +286,8 @@ export default class PlaceScreen extends React.Component {
                 <View>
                   {data.route_1 ? (
                     driver
-                      .filter(driver => driver.route == 4)
-                      .filter(driver => driver.status == 1).length == 0 ? (
+                      .filter(driver => driver.Route == 4)
+                      .filter(driver => driver.Status == 1).length == 0 ? (
                       <View>
                         <Text>รถสายนี้หยุดทำงาน</Text>
                       </View>
