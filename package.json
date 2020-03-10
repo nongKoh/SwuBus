@@ -16,6 +16,7 @@
     "expo-location": "~8.0.0",
     "expo-permissions": "~8.0.0",
     "graphql": "^14.6.0",
+    "haversine": "^1.1.1",
     "pubnub-react": "^2.0.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",

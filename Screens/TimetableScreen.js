@@ -5,41 +5,42 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  Image,
-  Button
+  Image
+  // Button
 } from "react-native";
 import Modal from "react-native-modalbox";
-import axios from "axios"
-import PropTypes from "prop-types";
+import axios from "axios";
+import env from "./config";
 
 export default class App extends React.Component {
+  _isMounted = false;
   static navigationOptions = {
     title: "ตารางเดินรถ"
   };
   state = {
     nowstation: {
-      now_name: "สถานีปัจจุบัน",
+      now_name: "",
       now_id: "",
       now_url:
         "https://i.pinimg.com/originals/43/58/14/435814f8040cc60fcadec7d07e45daae.jpg",
       route_1: false,
       route_2: false,
       route_3: false,
-      route_4: false,
+      route_4: false
       // route: [true,true,true,true]
     },
     nextstation: {
-      next_name: "สถานีที่ต้องการ",
+      next_name: "",
       next_id: "",
       next_url:
         "https://i.pinimg.com/originals/95/0d/91/950d91f08a8438df05d29a6364f7cebd.jpg",
       route_1: false,
       route_2: false,
       route_3: false,
-      route_4: false,
+      route_4: false
       // route: [true,true,true,true]
     },
-    route:{
+    route: {
       one_url:
         "https://i.pinimg.com/originals/2d/8b/49/2d8b49b3cb952c9e9117da940d05a1d4.jpg",
       two_url:
@@ -50,33 +51,31 @@ export default class App extends React.Component {
         "https://i.pinimg.com/originals/c4/b1/d9/c4b1d96cda1a2a0849daea9721fadca8.jpg"
     },
     data: [],
-    time: [0,0,0,0],
+    time: [0, 0, 0, 0]
   };
 
   componentDidMount() {
-    this.getStation()
+    this._isMounted = true;
+    this.getStation();
   }
 
-  // shouldComponentUpdate(nextProps, nextState){
-  //   // console.log(nextState)
-  //   if(!nextState.time==null){
-  //     return false
-  //   }
-  //   return true
-  // }
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   getStation = async () => {
     try {
-    let res = await axios.get('https://5e4d60fa9b6805001438fe0a.mockapi.io/api/v1/station')
-    let { data } = await res
-    // console.log(data)
-    this.setState({
-      data: data
-    })
-  } catch (error){
-    console.log(error)
-  }
-}
+      let res = await axios.get(`${env.url}/station`);
+      let { data } = await res;
+      if (this._isMounted) {
+        this.setState({
+          data: data
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   setNowstation = data => {
     this.setState({
@@ -84,23 +83,6 @@ export default class App extends React.Component {
         now_name: data.station_name,
         now_id: data.station_id,
         now_url: data.station_url,
-        // route: data.route,
-        route_1: data.route_1,
-        route_2: data.route_2,
-        route_3: data.route_3,
-        route_4: data.route_4
-      }
-    })
-    
-  };
-  
-  setNextstation = data => {
-    this.setState({
-      nextstation: {
-        next_name: data.station_name,
-        next_id: data.station_id,
-        next_url: data.station_url,
-        // route: data.route,
         route_1: data.route_1,
         route_2: data.route_2,
         route_3: data.route_3,
@@ -109,39 +91,36 @@ export default class App extends React.Component {
     });
   };
 
-  getTime = async (nowstation,nextstation) => {
-    const now_route = await this.pushroute(nowstation)
-    const next_route = await this.pushroute(nextstation)
-    // console.log(now_route)
-    // console.log(next_route)
-    try {
-    const res = await axios.get('https://5e4d60fa9b6805001438fe0a.mockapi.io/api/v1/time', 
-    {
-      nowstation_id: nowstation.now_id,
-      nextstation_id: nextstation.next_id,
-      now_route: now_route,
-      next_route: next_route,
-    }
-    )
-    let { data } = await res
-    // console.log(data)
+  setNextstation = data => {
     this.setState({
-      time: data[0].time
-    })
-    // console.log(this.state.time)
-  } catch (error){
-    console.log(error)
-  }
-  }
+      nextstation: {
+        next_name: data.station_name,
+        next_id: data.station_id,
+        next_url: data.station_url,
+        route_1: data.route_1,
+        route_2: data.route_2,
+        route_3: data.route_3,
+        route_4: data.route_4
+      }
+    });
+  };
 
-  pushroute = (data)  =>{
-    let route = []
-    route.push(data.route_1)
-    route.push(data.route_2)
-    route.push(data.route_3)
-    route.push(data.route_4)
-    return route
-  }
+  getTime = async (nowstation, nextstation) => {
+    try {
+      const res = await axios.get(`${env.url}/time`, {
+        params: {
+          now: nowstation.now_id,
+          next: nextstation.next_id
+        }
+      });
+      let { data } = await res;
+      this.setState({
+        time: data[0].time
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   render() {
     const search = this.state;
@@ -172,98 +151,77 @@ export default class App extends React.Component {
           </TouchableOpacity>
         );
       });
-    const Routetime = () =>{
-      const item = []
-      const nowstation = station.nowstation
-      const nextstation = station.nextstation
-      // console.log(nowstation.route[1])
-        if(nowstation.route_1&&nextstation.route_1){
-          item.push(
-            <View 
-            style={[styles.routemodal, styles.routemodal1]}
-            key= {1}
-            >
-              <Image
-                style={styles.routeimage}
-                source={{
-                  uri: search.route.one_url
-                }}
-              />
-              {/* <Text style={styles.modaltext}></Text> */}
-              <Text style={styles.modaltext}>สาย 1</Text>
-              <Text style={styles.modaltext}>{station.time[0]} นาที</Text>
-            </View>
-          )
-        }
-        if(nowstation.route_2&&nextstation.route_2){
-          item.push(
-            <View 
-            style={[styles.routemodal, styles.routemodal2]}
-            key= {2}
-            >
-              <Image
-                style={styles.routeimage}
-                source={{
-                  uri: search.route.one_url
-                }}
-              />
-              {/* <Text style={styles.modaltext}></Text> */}
-              <Text style={styles.modaltext}>สาย 2</Text>
-              <Text style={styles.modaltext}>{station.time[1]} นาที</Text>
-            </View>
-          )
-        }
-        if(nowstation.route_3&&nextstation.route_3){
-          item.push(
-            <View 
-            style={[styles.routemodal, styles.routemodal3]}
-            key= {3}
-            >
-              <Image
-                style={styles.routeimage}
-                source={{
-                  uri: search.route.one_url
-                }}
-              />
-              {/* <Text style={styles.modaltext}></Text> */}
-              <Text style={styles.modaltext}>สาย 3</Text>
-              <Text style={styles.modaltext}>{station.time[2]} นาที</Text>
-            </View>
-          )
-        }
-        if(nowstation.route_4&&nextstation.route_4){
-          item.push(
-            <View 
-            style={[styles.routemodal, styles.routemodal4]}
-            key= {4}
-            >
-              <Image
-                style={styles.routeimage}
-                source={{
-                  uri: search.route.one_url
-                }}
-              />
-              {/* <Text style={styles.modaltext}></Text> */}
-              <Text style={styles.modaltext}>สาย ด่วน</Text>
-              <Text style={styles.modaltext}>{station.time[3]} นาที</Text>
-            </View>
-          )
-        }
-        // console.log(item.length)
-      if(item.length == 0){
+    const Routetime = () => {
+      const item = [];
+      const nowstation = station.nowstation;
+      const nextstation = station.nextstation;
+      if (nowstation.route_1 && nextstation.route_1) {
+        item.push(
+          <View style={[styles.routemodal, styles.routemodal1]} key={1}>
+            <Image
+              style={styles.routeimage}
+              source={{
+                uri: search.route.one_url
+              }}
+            />
+            <Text style={styles.modaltext}>สาย 1</Text>
+            <Text style={styles.modaltext}>{station.time[0]} นาที</Text>
+          </View>
+        );
+      }
+      if (nowstation.route_2 && nextstation.route_2) {
+        item.push(
+          <View style={[styles.routemodal, styles.routemodal2]} key={2}>
+            <Image
+              style={styles.routeimage}
+              source={{
+                uri: search.route.one_url
+              }}
+            />
+            <Text style={styles.modaltext}>สาย 2</Text>
+            <Text style={styles.modaltext}>{station.time[1]} นาที</Text>
+          </View>
+        );
+      }
+      if (nowstation.route_3 && nextstation.route_3) {
+        item.push(
+          <View style={[styles.routemodal, styles.routemodal3]} key={3}>
+            <Image
+              style={styles.routeimage}
+              source={{
+                uri: search.route.one_url
+              }}
+            />
+            <Text style={styles.modaltext}>สาย 3</Text>
+            <Text style={styles.modaltext}>{station.time[2]} นาที</Text>
+          </View>
+        );
+      }
+      if (nowstation.route_4 && nextstation.route_4) {
+        item.push(
+          <View style={[styles.routemodal, styles.routemodal4]} key={4}>
+            <Image
+              style={styles.routeimage}
+              source={{
+                uri: search.route.one_url
+              }}
+            />
+            <Text style={styles.modaltext}>สาย ด่วน</Text>
+            <Text style={styles.modaltext}>{station.time[3]} นาที</Text>
+          </View>
+        );
+      }
+      if (item.length == 0) {
         return (
-          <View 
-            style={[]}
-            >
-              <Text style={styles.modaltext}>ไม่พบเส้นทางที่ต้องการ</Text>
-            </View>
-        )
+          <View style={[]}>
+            <Text style={styles.modaltext}>ไม่พบเส้นทางที่ต้องการ</Text>
+          </View>
+        );
+      } else {
+        this.getTime(nowstation, nextstation);
+        return item;
       }
-      else {
-        this.getTime(nowstation,nextstation)
-        return item
-      }
-    }
+    };
     const Route = () => {
       return (
         <View style={[styles.modal]}>
@@ -272,8 +230,7 @@ export default class App extends React.Component {
             <Text style={styles.modaltext}>Route</Text>
             <Text style={styles.modaltext}>Time</Text>
           </View>
-          <Routetime/>
-
+          <Routetime />
         </View>
       );
     };
@@ -281,6 +238,7 @@ export default class App extends React.Component {
       <View style={styles.timetable}>
         <View style={styles.viewtop}>
           <View style={styles.texttop}>
+            <Text style={{ textAlign: "center" }}>สถานีต้นทาง</Text>
             <Text style={styles.textstation}>{search.nowstation.now_name}</Text>
             <Image
               style={styles.imagestation}
@@ -290,6 +248,7 @@ export default class App extends React.Component {
             />
           </View>
           <View style={styles.texttop}>
+            <Text style={{ textAlign: "center" }}>สถานีปลายทาง</Text>
             <Text style={styles.textstation}>
               {search.nextstation.next_name}
             </Text>
@@ -332,12 +291,10 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   timetable: {
     flex: 1
-    // flexDirection: "row"
   },
   viewtop: {
     flex: 5,
     flexDirection: "row",
-    // margin: 10
     backgroundColor: "#ffffff",
     borderColor: "gray",
     borderWidth: 1,
@@ -414,9 +371,8 @@ const styles = StyleSheet.create({
     paddingRight: 30
   },
   modal: {
-    // justifyContent: "center",
     alignItems: "center",
-    flex:1
+    flex: 1
   },
   modal4: {
     flex: 0.67,
@@ -425,7 +381,6 @@ const styles = StyleSheet.create({
   },
   routemodal: {
     justifyContent: "center",
-    // alignItems: "center",
     flex: 0.2,
     flexDirection: "row",
     marginBottom: 2,
@@ -433,22 +388,18 @@ const styles = StyleSheet.create({
   },
   Route: {
     alignItems: "center"
-    // borderWidth: 0.5,
   },
   routemodal1: {
-    // textAlign: 'center',
-    //     textAlignVertical: 'center',
-    //     alignItems:'center',
-    backgroundColor: "#3c76ff"
+    backgroundColor: "rgba(0, 128, 255,0.5)"
   },
   routemodal2: {
-    backgroundColor: "#ff3535"
+    backgroundColor: "rgba(255, 0, 0,0.5)"
   },
   routemodal3: {
-    backgroundColor: "#efff2b"
+    backgroundColor: "rgba(255, 200, 0,0.5)"
   },
   routemodal4: {
-    backgroundColor: "#00c60f"
+    backgroundColor: "rgba(50, 200, 50,0.5)"
   },
   modaltexttop: {
     flex: 0.4,

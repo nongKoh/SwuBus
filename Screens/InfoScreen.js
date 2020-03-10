@@ -10,7 +10,7 @@ export default class Info extends Component {
     //   const {navigate} = this.props.navigation;
     return (
       <View>
-        <Text>Info</Text>
+        <Text>รอก่อน</Text>
       </View>
     );
   }
