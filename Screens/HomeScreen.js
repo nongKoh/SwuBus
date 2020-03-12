@@ -6,13 +6,16 @@ import {
   View,
   TouchableHighlight,
   // Dimensions,
-  Platform
+  Platform,
+  AsyncStorage
 } from "react-native";
+
+import { Count } from "./userfunction"
 
 import Constants from "expo-constants";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
-
+import * as TaskManager from "expo-task-manager";
 import Map from "./component/map";
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -22,10 +25,17 @@ export default class HomeScreen extends React.Component {
 
   state = {
     location: null,
-    errorMessage: null
+    errorMessage: null,
+    statuswait: false
   };
-
-  componentDidMount() {
+  componentDidMount= async () => {
+    await AsyncStorage.setItem('stationid','0')
+    // await Count()
+    await AsyncStorage.getItem('statuswait', (err, result)=>{
+      this.setState({
+        statuswait: JSON.parse(result)
+      })
+    })
     if (Platform.OS === "android" && !Constants.isDevice) {
       this.setState({
         errorMessage:
@@ -35,30 +45,55 @@ export default class HomeScreen extends React.Component {
       this.getLocationAsync();
     }
   }
-
+  componentDidUpdate = async () => {
+    // Count()
+    await AsyncStorage.getItem('statuswait', (err, result)=>{
+      this.setState({
+        statuswait: JSON.parse(result)
+      })
+    })
+  }
+  onPress = async (data) => {
+    await AsyncStorage.setItem('statuswait', JSON.stringify(!data))
+    await AsyncStorage.getItem('statuswait', (err, result) => {
+      this.setState({
+        statuswait: JSON.parse(result)
+      })
+    })
+    await Count()
+  }
+  componentWillUnmount = async ()=>{
+    await AsyncStorage.getItem('statuswait', (err, result)=>{
+      this.setState({
+        statuswait: JSON.parse(result)
+      })
+    })
+    // Location.stopLocationUpdatesAsync('locations')
+    // AsyncStorage.clear()
+  }
   getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
+    if (status === "granted") {
       this.setState({
         errorMessage: "Permission to access location was denied"
       });
     }
     let location = await Location.getCurrentPositionAsync({});
-    // console.log(location)
-    // this.setState({ location });
+    // await Location.startLocationUpdatesAsync('locations', {
+    //   accuracy: Location.Accuracy.High
+    // });
   };
-
   render() {
     const { navigate } = this.props.navigation;
-
     return (
       <View style={styles.container}>
         <View style={styles.wait}>
           <View style={styles.body}></View>
           <TouchableHighlight
-            style={styles.circle}
-            onPress={() => navigate("Wait")}
-            underlayColor="#ff82a0"
+            // style={this.state.statuswait ? styles.circle : styles.true}
+            style={this.state.statuswait ? styles.circle : styles.true}
+            onPress={() => {this.onPress(this.state.statuswait)}}
+            underlayColor="rgba(255, 255, 255,0.5)"
           >
             <Text style={styles.text}>Wait</Text>
           </TouchableHighlight>
@@ -145,6 +180,14 @@ const styles = StyleSheet.create({
   circle: {
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: 50,
+    backgroundColor: "rgba(50, 200, 50,0.8)",
+    width: "200%",
+    height: "200%"
+  },
+  true: {
+    alignItems: "center",
+    justifyContent: "center",
 
     borderRadius: 50,
     backgroundColor: "#ffdae0",
@@ -160,3 +203,4 @@ const styles = StyleSheet.create({
     height: "100%"
   }
 });
+

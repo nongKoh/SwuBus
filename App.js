@@ -1,16 +1,14 @@
-import React from 'react';
-import { AppRegistry } from 'react-native';
-// import { YellowBox } from 'react-native';
-
-import Navigator from './routes/homeStack'
-
-// YellowBox.ignoreWarnings(['Remote debugger']);
+import React, { useEffect } from "react";
+import { AppRegistry, AsyncStorage, AppState } from "react-native";
+import * as TaskManager from "expo-task-manager";
+import Navigator from "./routes/homeStack";
+import ErrorBoundary from "./ErrorBoundary";
 export default function App() {
   return (
-      <Navigator/>
+    <ErrorBoundary>
+      <Navigator />
+    </ErrorBoundary>
   );
 }
 
-
-
-AppRegistry.registerComponent("Swubus M", () => App);  
+AppRegistry.registerComponent("Swubus M", () => App);

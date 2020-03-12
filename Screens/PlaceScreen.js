@@ -36,6 +36,7 @@ export default class PlaceScreen extends React.Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.refs.modal4.close()
   }
 
   getStation = async () => {

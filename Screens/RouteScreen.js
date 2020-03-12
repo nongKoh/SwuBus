@@ -7,10 +7,10 @@ import {
   Image,
   TouchableHighlight
 } from "react-native";
-    const img1 = require("../assets/Route10.png")
-    const img2 = require("../assets/Route2.png")
-    const img3 = require("../assets/Route3.png")
-    const img4 = require("../assets/RouteEx.png")
+    const img1 = require("../assets/1.png")
+    const img2 = require("../assets/2.png")
+    const img3 = require("../assets/3.png")
+    const img4 = require("../assets/4.png")
 export default class RouteScreen extends React.Component {
   static navigationOptions = {
     title: "เส้นทางเดินรถ"
@@ -39,7 +39,7 @@ export default class RouteScreen extends React.Component {
               <View style={{ flex: 1, alignItems: "center" }}>
                 <View style={{width: "100%", height: "100%", justifyContent: "center" }}>
                   <Image
-                  style={{ width: "100%", height: "70%"}}
+                  style={{ width: "100%", height: "65%"}}
                   source={this.state.url}
                 />
                 </View>

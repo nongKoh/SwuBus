@@ -16,6 +16,7 @@ import mark1 from "../../assets/50x50Line1.png";
 import mark2 from "../../assets/50x50Line2.png";
 import mark3 from "../../assets/50x50Line3.png";
 import mark4 from "../../assets/50x50LineEx.png";
+import { Count } from "../userfunction"
 const useForceUpdate = () => useState()[1];
 function Map(props) {
   const [initialRegion, setinitialRegion] = useState({
@@ -54,6 +55,7 @@ function Map(props) {
     getMark();
     const interval = setInterval(() => {
       getMark();
+      Count()
       // getLocationAsync()
     }, 5000);
     return () => clearInterval(interval);
