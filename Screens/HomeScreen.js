@@ -29,8 +29,7 @@ export default class HomeScreen extends React.Component {
     statuswait: false
   };
   componentDidMount= async () => {
-    await AsyncStorage.setItem('stationid','0')
-    // await Count()
+    AsyncStorage.setItem('stationid','0')
     await AsyncStorage.getItem('statuswait', (err, result)=>{
       this.setState({
         statuswait: JSON.parse(result)
@@ -46,7 +45,6 @@ export default class HomeScreen extends React.Component {
     }
   }
   componentDidUpdate = async () => {
-    // Count()
     await AsyncStorage.getItem('statuswait', (err, result)=>{
       this.setState({
         statuswait: JSON.parse(result)
@@ -68,8 +66,6 @@ export default class HomeScreen extends React.Component {
         statuswait: JSON.parse(result)
       })
     })
-    // Location.stopLocationUpdatesAsync('locations')
-    // AsyncStorage.clear()
   }
   getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -78,10 +74,7 @@ export default class HomeScreen extends React.Component {
         errorMessage: "Permission to access location was denied"
       });
     }
-    let location = await Location.getCurrentPositionAsync({});
-    // await Location.startLocationUpdatesAsync('locations', {
-    //   accuracy: Location.Accuracy.High
-    // });
+    await Location.getCurrentPositionAsync({});
   };
   render() {
     const { navigate } = this.props.navigation;
@@ -90,7 +83,6 @@ export default class HomeScreen extends React.Component {
         <View style={styles.wait}>
           <View style={styles.body}></View>
           <TouchableHighlight
-            // style={this.state.statuswait ? styles.circle : styles.true}
             style={this.state.statuswait ? styles.circle : styles.true}
             onPress={() => {this.onPress(this.state.statuswait)}}
             underlayColor="rgba(255, 255, 255,0.5)"
@@ -121,7 +113,6 @@ export default class HomeScreen extends React.Component {
 
             <TouchableHighlight
               style={styles.StackButton}
-              // onPress={() => navigate("Timetable")}
               underlayColor="#ff82a0"
             >
               <Text></Text>

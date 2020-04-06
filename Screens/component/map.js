@@ -17,7 +17,7 @@ import mark2 from "../../assets/50x50Line2.png";
 import mark3 from "../../assets/50x50Line3.png";
 import mark4 from "../../assets/50x50LineEx.png";
 import { Count } from "../userfunction"
-const useForceUpdate = () => useState()[1];
+
 function Map(props) {
   const [initialRegion, setinitialRegion] = useState({
     latitude: 14.1035315,
@@ -28,36 +28,20 @@ function Map(props) {
   const [marker, setMarker] = useState([]);
   const getMark = async () => {
     try {
-      let res = await axios.get(`${env.url}/coordinate`);
-      // let res = await axios.get(`${env.urltest}/track`);
-      // let res = await axios.get("192.168.43.129:3000/track")
-      // let res = await axios()
+      let res = await axios.get(`${env.urltest}/track/all`);
       let data = res;
-      // console.log(data)
       setMarker(data.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // const getLocationAsync = async () => {
-  //   let { status } = await Permissions.askAsync(Permissions.LOCATION);
-  //   if (status !== "granted") {
-  //     this.setState({
-  //       errorMessage: "Permission to access location was denied"
-  //     });
-  //   }
-  //   let location = await Location.getCurrentPositionAsync({});
-  //   console.log(location.coords);
-  //   // this.setState({ location });
-  // };
   useEffect(() => {
     getMark();
     const interval = setInterval(() => {
       getMark();
       Count()
-      // getLocationAsync()
-    }, 5000);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -69,7 +53,7 @@ function Map(props) {
         let latitude = parseFloat(data.latitude);
         return (
           <Marker
-            key={data.Id}
+            key={data.Driverid}
             ref={marker => {
               marker = marker;
             }}

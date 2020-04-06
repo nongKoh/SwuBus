@@ -41,7 +41,7 @@ export default class PlaceScreen extends React.Component {
 
   getStation = async () => {
     try {
-      let res = await axios.get(`${env.url}/station`);
+      let res = await axios.get(`${env.urltest}/station/all`);
       let { data } = await res;
       if (this._isMounted) {
         this.setState({
@@ -55,7 +55,7 @@ export default class PlaceScreen extends React.Component {
 
   getDriver = async () => {
     try {
-      let res = await axios.get(`${env.url}/coordinate`);
+      let res = await axios.get(`${env.urltest}/track/all`);
       let { data } = await res;
       this.setState({
         driver: data
@@ -66,7 +66,6 @@ export default class PlaceScreen extends React.Component {
   };
 
   setStation = data => {
-    this._isMounted = false;
     this.setState({
       station: {
         name: data.station_name,
@@ -109,7 +108,7 @@ export default class PlaceScreen extends React.Component {
                   <Text> Online </Text>
                 </View>
                 <View style={styles.count}>
-                  <Text>คันที่ {driver.id} </Text>
+                  <Text>คันที่ {driver.Id} </Text>
                 </View>
                 <View style={styles.time}>
                   {this.getDistance(
@@ -134,7 +133,7 @@ export default class PlaceScreen extends React.Component {
                   <Text> Online </Text>
                 </View>
                 <View style={styles.count}>
-                  <Text>คันที่ {driver.id} </Text>
+                  <Text>คันที่ {driver.Id} </Text>
                 </View>
                 <View style={styles.time}>
                   {this.getDistance(
@@ -159,7 +158,7 @@ export default class PlaceScreen extends React.Component {
                   <Text> Online </Text>
                 </View>
                 <View style={styles.count}>
-                  <Text>คันที่ {driver.id} </Text>
+                  <Text>คันที่ {driver.Id} </Text>
                 </View>
                 <View style={styles.time}>
                   {this.getDistance(
@@ -184,7 +183,7 @@ export default class PlaceScreen extends React.Component {
                   <Text> Online </Text>
                 </View>
                 <View style={styles.count}>
-                  <Text>คันที่ {driver.id} </Text>
+                  <Text>คันที่ {driver.Id} </Text>
                 </View>
                 <View style={styles.time}>
                   {this.getDistance(

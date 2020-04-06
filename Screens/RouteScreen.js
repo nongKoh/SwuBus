@@ -23,7 +23,6 @@ export default class RouteScreen extends React.Component {
     };
   }
   onPress = (id) => {
-    // console.log(this.state.url)
     this.setState({
       url: id == '1' ? img1 : id == '2' ? img2 : id == '3' ? img3 : img4
     })
@@ -37,7 +36,7 @@ export default class RouteScreen extends React.Component {
           <View style={styles.row}>
             <View style={{ flex: 1 }}>
               <View style={{ flex: 1, alignItems: "center" }}>
-                <View style={{width: "100%", height: "100%", justifyContent: "center" }}>
+                <View style={{width: "100%", height: "100%",marginLeft: 15, justifyContent: "center" }}>
                   <Image
                   style={{ width: "100%", height: "65%"}}
                   source={this.state.url}
@@ -98,7 +97,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     flex: 1
-    // backgroundColor: "red"
   },
   StackButton: {
     flex: 1,
