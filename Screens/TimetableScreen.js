@@ -22,33 +22,31 @@ export default class App extends React.Component {
       now_name: "",
       now_id: "",
       now_url:
-        "https://i.pinimg.com/originals/43/58/14/435814f8040cc60fcadec7d07e45daae.jpg",
-      route_1: false,
-      route_2: false,
-      route_3: false,
-      route_4: false
-      // route: [true,true,true,true]
+        "hopak.jpg",
+      route_1: "0",
+      route_2: "0",
+      route_3: "0",
+      route_4: "0"
     },
     nextstation: {
       next_name: "",
       next_id: "",
       next_url:
-        "https://i.pinimg.com/originals/95/0d/91/950d91f08a8438df05d29a6364f7cebd.jpg",
-      route_1: false,
-      route_2: false,
-      route_3: false,
-      route_4: false
-      // route: [true,true,true,true]
+        "alllearn.jpg",
+      route_1: "0",
+      route_2: "0",
+      route_3: "0",
+      route_4: "0"
     },
     route: {
       one_url:
-        "https://i.pinimg.com/originals/2d/8b/49/2d8b49b3cb952c9e9117da940d05a1d4.jpg",
+        "route1.jpg",
       two_url:
-        "https://i.pinimg.com/originals/9c/5c/83/9c5c836ecf2c5f6518fdf918752ca469.jpg",
+        "route2.jpg",
       three_url:
-        "https://i.pinimg.com/originals/21/be/b9/21beb9ee69c6ae7225b4ea8ae1d49534.jpg",
+        "route3.jpg",
       express_url:
-        "https://i.pinimg.com/originals/c4/b1/d9/c4b1d96cda1a2a0849daea9721fadca8.jpg"
+        "route4.jpg"
     },
     data: [],
     time: [0, 0, 0, 0]
@@ -61,12 +59,15 @@ export default class App extends React.Component {
 
   componentWillUnmount() {
     this._isMounted = false;
-    this.refs.modal4.close()
+    this.refs.modal4.close();
+    this.setState({
+      time: [0, 0, 0, 0]
+    })
   }
 
   getStation = async () => {
     try {
-      let res = await axios.get(`${env.url}/station`);
+      let res = await axios.get(`${env.urltest}/station/all`);
       let { data } = await res;
       if (this._isMounted) {
         this.setState({
@@ -108,15 +109,15 @@ export default class App extends React.Component {
 
   getTime = async (nowstation, nextstation) => {
     try {
-      const res = await axios.get(`${env.url}/time`, {
-        params: {
-          now: nowstation.now_id,
-          next: nextstation.next_id
-        }
-      });
+      let now = nowstation.now_id;
+      let next = nextstation.next_id;
+      const res = await axios.get(
+        `${env.urltest}/route/patch/${now}/${next}`,
+        {}
+      );
       let { data } = await res;
       this.setState({
-        time: data[0].time
+        time: data
       });
     } catch (error) {
       console.log(error);
@@ -156,13 +157,14 @@ export default class App extends React.Component {
       const item = [];
       const nowstation = station.nowstation;
       const nextstation = station.nextstation;
-      if (nowstation.route_1 && nextstation.route_1) {
+      if (nowstation.route_1 === "1" && nextstation.route_1 === "1") {
         item.push(
           <View style={[styles.routemodal, styles.routemodal1]} key={1}>
             <Image
               style={styles.routeimage}
               source={{
-                uri: search.route.one_url
+                // uri: search.route.one_url
+                uri: `${env.urltest}/station/image/download/${search.route.one_url}`
               }}
             />
             <Text style={styles.modaltext}>สาย 1</Text>
@@ -170,13 +172,13 @@ export default class App extends React.Component {
           </View>
         );
       }
-      if (nowstation.route_2 && nextstation.route_2) {
+      if (nowstation.route_2 === "1" && nextstation.route_2 === "1") {
         item.push(
           <View style={[styles.routemodal, styles.routemodal2]} key={2}>
             <Image
               style={styles.routeimage}
               source={{
-                uri: search.route.one_url
+                uri: `${env.urltest}/station/image/download/${search.route.two_url}`
               }}
             />
             <Text style={styles.modaltext}>สาย 2</Text>
@@ -184,13 +186,13 @@ export default class App extends React.Component {
           </View>
         );
       }
-      if (nowstation.route_3 && nextstation.route_3) {
+      if (nowstation.route_3 === "1" && nextstation.route_3 === "1") {
         item.push(
           <View style={[styles.routemodal, styles.routemodal3]} key={3}>
             <Image
               style={styles.routeimage}
               source={{
-                uri: search.route.one_url
+                uri: `${env.urltest}/station/image/download/${search.route.three_url}`
               }}
             />
             <Text style={styles.modaltext}>สาย 3</Text>
@@ -198,13 +200,13 @@ export default class App extends React.Component {
           </View>
         );
       }
-      if (nowstation.route_4 && nextstation.route_4) {
+      if (nowstation.route_4 === "1" && nextstation.route_4 === "1") {
         item.push(
           <View style={[styles.routemodal, styles.routemodal4]} key={4}>
             <Image
               style={styles.routeimage}
               source={{
-                uri: search.route.one_url
+                uri: `${env.urltest}/station/image/download/${search.route.express_url}`
               }}
             />
             <Text style={styles.modaltext}>สาย ด่วน</Text>
@@ -244,7 +246,8 @@ export default class App extends React.Component {
             <Image
               style={styles.imagestation}
               source={{
-                uri: search.nowstation.now_url
+                // uri: search.nowstation.now_url
+                uri: `${env.urltest}/station/image/download/${search.nowstation.now_url}`
               }}
             />
           </View>
@@ -256,7 +259,8 @@ export default class App extends React.Component {
             <Image
               style={styles.imagestation}
               source={{
-                uri: search.nextstation.next_url
+                // uri: search.nextstation.next_url
+                uri: `${env.urltest}/station/image/download/${search.nextstation.next_url}`
               }}
             />
           </View>

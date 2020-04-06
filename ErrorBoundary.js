@@ -14,15 +14,15 @@ class ErrorBoundary extends React.Component {
     AppState.removeEventListener("change", this._handleAppStateChange);
   };
 
-  _handleAppStateChange = nextAppState => {
+  _handleAppStateChange = async nextAppState => {
     if (
       this.state.appState.match(/inactive|background/) &&
       nextAppState === "active"
     ) {
       console.log("App has come to the foreground!");
     } else {
+      await Count(true);
       console.log("Close App");
-      Count(true);
     }
     this.setState({ appState: nextAppState });
   };
